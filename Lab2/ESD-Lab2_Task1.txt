@@ -1,0 +1,29 @@
+// C++ code
+//
+int led=9;
+void setup()
+{
+ // pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(led, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+	int a = analogRead(A0);
+ 	Serial.println(a);
+  	if(a>=100)
+    {
+    analogWrite(led,HIGH);
+    Serial.println("Warning");
+   	delay(1000);
+    }
+  else{
+    analogWrite(led,LOW);
+    Serial.println("Safe");
+    delay(1000);
+  }
+  
+  
+  
+}

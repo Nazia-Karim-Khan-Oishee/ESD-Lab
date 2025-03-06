@@ -1,0 +1,38 @@
+
+
+
+const int motorPin = 9;     
+const int startButton = A0; 
+const int stopButton = A1;  
+bool motorState = false;    
+
+void setup() {
+    pinMode(motorPin, OUTPUT);  
+    pinMode(startButton, INPUT_PULLUP);  
+    pinMode(stopButton, INPUT_PULLUP);   
+    Serial.begin(9600);  
+}
+
+void loop() {
+    int startPressed = digitalRead(startButton);
+    int stopPressed = digitalRead(stopButton);
+	//Serial.println(startPressed);
+ 	//Serial.println("stopPressed");
+  	//Serial.println(stopPressed);
+
+    // Start the motor when the start button is pressed
+    if (startPressed == LOW && !motorState) {  
+        digitalWrite(motorPin, HIGH); 
+        motorState = true;  
+        Serial.println("Motor started");
+    }
+
+    // Stop the motor when the stop button is pressed
+    if (stopPressed == LOW && motorState) {  
+        digitalWrite(motorPin, LOW);  
+        motorState = false; 
+        Serial.println("Motor stopped");
+    }
+
+    delay(100);  
+}
