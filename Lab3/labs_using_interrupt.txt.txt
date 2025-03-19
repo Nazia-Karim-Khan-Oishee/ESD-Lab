@@ -1,0 +1,34 @@
+const int motorPin = 9;
+const int startButton = 2;
+const int stopButton = 3;
+volatile bool motorState = false;  // Use volatile for variables accessed within ISRs
+
+void setup() {
+    pinMode(motorPin, OUTPUT);
+    pinMode(startButton, INPUT_PULLUP);
+    pinMode(stopButton, INPUT_PULLUP);
+    Serial.begin(9600);
+
+    attachInterrupt(digitalPinToInterrupt(startButton), startMotor, FALLING); // Attach ISR for start button
+    attachInterrupt(digitalPinToInterrupt(stopButton), stopMotor, FALLING);   // Attach ISR for stop button
+}
+
+void loop() {
+    // Main loop remains empty as interrupts handle button presses
+}
+
+void startMotor() {
+    if (!motorState) {
+        digitalWrite(motorPin, HIGH);
+        motorState = true;
+        Serial.println("Motor started");
+    }
+}
+
+void stopMotor() {
+    if (motorState) {
+        digitalWrite(motorPin, LOW);
+        motorState = false;
+        Serial.println("Motor stopped");
+    }
+}
