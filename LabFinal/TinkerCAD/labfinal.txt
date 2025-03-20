@@ -1,0 +1,78 @@
+const int led1 = 9;
+const int led2 = 10;
+const int buttonPin = A0;
+
+bool mode = 0;  
+bool lastButtonState = HIGH;  
+
+void setup() {
+    pinMode(led1, OUTPUT);
+    pinMode(led2, OUTPUT);
+    pinMode(buttonPin, INPUT_PULLUP); 
+    Serial.begin(9600);  
+}
+
+void loop() {
+    Serial.println("START");
+  
+    checkButtonPress();  
+
+    if (mode == 0) {
+        sequentialBlink();
+    } else {
+        fadingEffect();
+    }
+}
+
+void checkButtonPress() {
+  
+    bool buttonState = digitalRead(buttonPin);
+
+    if (buttonState == LOW && lastButtonState == HIGH) {  //Press the Button
+      Serial.println("Button Pressed");
+        //delay(10);  
+        mode = !mode;  
+    }
+
+    lastButtonState = buttonState;
+  	Serial.println(buttonState);
+}
+
+void sequentialBlink() {
+  Serial.println("SEQUENTIAL");
+    digitalWrite(led1, HIGH);
+    delay(2000);
+    digitalWrite(led1, LOW);
+    
+    delay(500);
+
+  
+    digitalWrite(led2, HIGH);
+    delay(2000);
+    digitalWrite(led2, LOW);
+}
+
+void fadingEffect() {
+    Serial.println("FADING MODE");
+
+  	Serial.println("LIT");
+  
+    for (int brightness = 0; brightness <= 255; brightness = brightness + 50) {
+      
+        analogWrite(led1, brightness);
+        analogWrite(led2, brightness);
+    }
+         
+  	delay(1000);
+
+    Serial.println("BEGIN FADE");
+
+    for (int brightness = 255; brightness >= 0; brightness = brightness - 50) {
+
+        analogWrite(led1, brightness);
+        analogWrite(led2, brightness);
+    }
+          
+  	delay(2000);
+
+}

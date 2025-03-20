@@ -1,0 +1,30 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity FlipFlop is
+    Port ( CLK  : in  STD_LOGIC;
+           RESET  : in  STD_LOGIC;
+           SET  : in  STD_LOGIC;
+           Data : in  STD_LOGIC;
+           O    : out STD_LOGIC);
+end FlipFlop;
+
+architecture Behavioral of FlipFlop is
+    signal Q : STD_LOGIC := '0'; 
+begin
+    process (CLK, RESET, SET)
+    begin
+        -- RESET 1 => Output 0
+        if RESET = '1' then
+            Q <= '0';
+        -- SET 1 => Output 0
+        elsif SET = '1' then
+            Q <= '1';
+        -- CLK Edge Rising
+        elsif rising_edge(CLK) then
+            Q <= Data;
+        end if;
+    end process;
+
+    O <= Q; 
+end Behavioral;
